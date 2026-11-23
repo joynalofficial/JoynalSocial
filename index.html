@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoynalSocial</title>
+<style>
+
+#account-section #login-email,
+#account-section #login-password,
+#account-section #login-button,
+#account-section #signup-button {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+    
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            color: #1c1e21;
+        }
+
+        header {
+            background: #0866ff;
+            color: white;
+            padding: 18px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 15px;
+        }
+
+        .welcome, .post-box, .post {
+            background: white;
+            padding: 20px;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #00000012;
+        }
+
+        .welcome {
+            text-align: center;
+        }
+
+        .welcome h1 {
+            color: #0866ff;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 90px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 16px;
+        }
+
+        button {
+            background: #0866ff;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            padding: 11px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #0755d4;
+        }
+
+        .post h3 {
+            margin-top: 0;
+            color: #0866ff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #65676b;
+        }
+/* JoynalSocial Account Form */
+#account-section {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+#account-section h2,
+#account-section h3 {
+  color: #1769d2;
+  margin-bottom: 16px;
+}
+
+#account-section label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+#account-section input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+#account-section button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #1769d2;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+#account-section input,
+#account-section button {
+    display: block !important;
+    width: 100% !important;
+    min-height: 45px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+}
+    </style>
+</head>
+
+<body>
+
+    <header>JoynalSocial</header>
+
+    <main class="container">
+
+        <section class="welcome">
+            <h1>স্বাগতম JoynalSocial-এ!</h1>
+            <p>আপনার বন্ধুদের সঙ্গে যুক্ত হোন, মনের কথা শেয়ার করুন।</p>
+        </section>
+
+        <section class="post-box">
+            <h3>আপনার মনের কথা লিখুন</h3>
+
+            <textarea id="postText"
+                placeholder="আপনি কী ভাবছেন?"></textarea>
+
+            <button onclick="addPost()">পোস্ট করুন</button>
+<br><br>
+<input type="file" id="postImage" accept="image/*">
+        </section>
+
+
+        <section id="posts">
+            <article class="post">
+                <h3>JoynalSocial</h3>
+                <p>আমাদের নতুন সামাজিক যোগাযোগমাধ্যমে আপনাকে স্বাগতম!</p>
+            </article>
+        </section>
+
+    </main>
+
+    <footer>
+        © 2026 JoynalSocial
+    </footer>
+
+    <script>
+        function addPost() {
+            const input = document.getElementById("postText");
+            const text = input.value.trim();
+
+            if (text === "") {
+                alert("পোস্ট করার আগে কিছু লিখুন!");
+                return;
+            }
+
+            const post = document.createElement("article");
+            post.className = "post";
+
+            const title = document.createElement("h3");
+            title.textContent = "আপনার পোস্ট";
+
+            const content = document.createElement("p");
+            content.textContent = text;
+
+            post.appendChild(title);
+            post.appendChild(content);
+const imageInput = document.getElementById("postImage");
+
+if (imageInput.files.length > 0) {
+    const image = document.createElement("img");
+    image.src = URL.createObjectURL(imageInput.files[0]);
+    image.style.width = "100%";
+    image.style.maxWidth = "400px";
+    image.style.marginTop = "10px";
+    image.style.borderRadius = "10px";
+
+    post.appendChild(image);
+}
+
+imageInput.value = "";
+const likeButton = document.createElement("button");
+likeButton.textContent = "👍 লাইক 0";
+
+let likes = 0;
+let liked = false;
+
+likeButton.onclick = function () {
+    if (liked === false) {
+        likes++;
+        liked = true;
+    } else {
+        likes--;
+        liked = false;
+    }
+
+    likeButton.textContent = "👍 লাইক " + likes;
+};
+
+post.appendChild(likeButton);
+const commentBox = document.createElement("textarea");
+commentBox.placeholder = "কমেন্ট লিখুন...";
+commentBox.style.width = "100%";
+commentBox.style.marginTop = "10px";
+
+const commentButton = document.createElement("button");
+commentButton.textContent = "কমেন্ট করুন";
+
+const commentList = document.createElement("div");
+
+commentButton.onclick = function () {
+    const commentText = commentBox.value.trim();
+
+    if (commentText === "") {
+        alert("আগে কমেন্ট লিখুন!");
+        return;
+    }
+
+    const comment = document.createElement("p");
+    comment.textContent = "💬 " + commentText;
+
+    commentList.appendChild(comment);
+    commentBox.value = "";
+};
+
+post.appendChild(commentBox);
+post.appendChild(commentButton);
+post.appendChild(commentList);
+const deleteButton = document.createElement("button");
+deleteButton.textContent = "🗑️ পোস্ট মুছুন";
+deleteButton.style.backgroundColor = "red";
+deleteButton.style.color = "white";
+deleteButton.style.marginTop = "10px";
+
+deleteButton.onclick = function () {
+    if (confirm("আপনি কি এই পোস্টটি মুছে ফেলতে চান?")) {
+        post.remove();
+    }
+};
+
+post.appendChild(deleteButton);
+
+            document.getElementById("posts").prepend(post);
+
+            input.value = "";
+        }
+    </script>
+<!-- Jainal Social Profile -->
+<div id="jainal-profile" style="max-width:400px; margin:20px auto; padding:20px; border:1px solid #ddd; border-radius:12px; font-family:Arial,sans-serif; background:#fff;">
+
+  <h2 style="text-align:center; color:#1877f2;">My Profile</h2>
+
+  <div style="text-align:center; margin:15px;">
+    <img id="profile-photo"
+         src=""
+         alt="Profile Photo"
+         style="width:100px; height:100px; border-radius:50%; object-fit:cover; display:none; margin:auto;">
+  </div>
+
+  <label for="user-photo">Choose Profile Photo</label>
+  <input type="file"
+         id="user-photo"
+         accept="image/*"
+         style="display:block; margin:10px 0; width:100%;">
+
+  <label for="user-name">Your Name</label>
+  <input type="text"
+         id="user-name"
+         placeholder="Enter your name"
+         style="box-sizing:border-box; width:100%; padding:10px; margin:8px 0 15px;">
+
+  <label for="user-address">Your Address</label>
+  <textarea id="user-address"
+            placeholder="Enter your address"
+            style="box-sizing:border-box; width:100%; height:70px; padding:10px; margin:8px 0 15px;"></textarea>
+
+  <button type="button"
+          onclick="showJainalProfile()"
+          style="width:100%; padding:12px; background:#1877f2; color:white; border:none; border-radius:6px; cursor:pointer;">
+    Save Profile
+  </button>
+
+  <div id="profile-result"
+       style="margin-top:20px; overflow-wrap:anywhere;">
+  </div>
+
+</div>
+
+<script>
+ let savedPhotoUrl = "";
+
+async function showJainalProfile() {
+  const name = document.getElementById("user-name").value.trim();
+  const address = document.getElementById("user-address").value.trim();
+  const photoInput = document.getElementById("user-photo");
+  const photo = document.getElementById("profile-photo");
+  const result = document.getElementById("profile-result");
+
+  if (!name) {
+    alert("আপনার নাম লিখুন।");
+    return;
+  }
+
+  const { data: userData, error: userError } =
+    await supabaseClient.auth.getUser();
+
+  if (userError || !userData.user) {
+    alert("প্রথমে JoynalSocial-এ লগইন করুন।");
+    return;
+  }
+
+  const userId = userData.user.id;
+
+  // নতুন ছবি থাকলে Supabase Storage-এ আপলোড করুন
+  if (photoInput.files.length > 0) {
+    const file = photoInput.files[0];
+
+    if (!file.type.startsWith("image/")) {
+      alert("দয়া করে ছবির ফাইল নির্বাচন করুন।");
+      return;
+    }
+
+    const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, "");
+    const filePath = userId + "/" + Date.now() + "_" + safeName;
+
+    const { data: uploadData, error: uploadError } =
+      await supabaseClient.storage
+        .from("joynal-photos")
+        .upload(filePath, file, {
+          contentType: file.type,
+          upsert: false
+        });
+
+    if (uploadError) {
+      alert("ছবি আপলোড হয়নি: " + uploadError.message);
+      return;
+    }
+
+    const { data: urlData } = supabaseClient.storage
+      .from("joynal-photos")
+      .getPublicUrl(uploadData.path);
+
+    savedPhotoUrl = urlData.publicUrl;
+  }
+
+  // নাম, ঠিকানা ও ছবির লিংক ডেটাবেসে সংরক্ষণ
+  const { error: profileError } = await supabaseClient
+    .from("profiles")
+    .upsert({
+      id: userId,
+      name: name,
+      address: address,
+      photo_url: savedPhotoUrl || null,
+      updated_at: new Date().toISOString()
+    });
+
+  if (profileError) {
+    alert("প্রোফাইল সংরক্ষণ সমস্যা: " + profileError.message);
+    return;
+  }
+
+  localStorage.setItem("jainalUserName", name);
+  localStorage.setItem("jainalUserAddress", address);
+
+  if (savedPhotoUrl) {
+    photo.src = savedPhotoUrl;
+    photo.style.display = "block";
+  }
+
+  result.innerHTML = "";
+
+  const heading = document.createElement("h3");
+  heading.textContent = name;
+  result.appendChild(heading);
+
+  const addressText = document.createElement("p");
+  addressText.textContent = "Address: " + (address || "Not provided");
+  result.appendChild(addressText);
+
+  alert("আপনার প্রোফাইল সফলভাবে সংরক্ষণ হয়েছে!");
+}
+
+// পেজ খুললে আগের প্রোফাইল দেখাবে; অকারণে সেভ করবে না
+window.addEventListener("load", async function () {
+  document.getElementById("user-name").value =
+    localStorage.getItem("jainalUserName") || "";
+
+  document.getElementById("user-address").value =
+    localStorage.getItem("jainalUserAddress") || "";
+
+  const { data: userData, error } =
+    await supabaseClient.auth.getUser();
+
+  if (error || !userData.user) return;
+
+  const { data: profile, error: profileError } =
+    await supabaseClient
+      .from("profiles")
+      .select("name, address, photo_url")
+      .eq("id", userData.user.id)
+      .maybeSingle();
+
+  if (profileError || !profile) return;
+
+  document.getElementById("user-name").value = profile.name || "";
+  document.getElementById("user-address").value = profile.address || "";
+
+  savedPhotoUrl = profile.photo_url || "";
+
+  if (savedPhotoUrl) {
+    const photo = document.getElementById("profile-photo");
+    photo.src = savedPhotoUrl;
+    photo.style.display = "block";
+  }
+
+  const result = document.getElementById("profile-result");
+  result.innerHTML = "";
+
+  if (profile.name) {
+    const heading = document.createElement("h3");
+    heading.textContent = profile.name;
+    result.appendChild(heading);
+
+    const addressText = document.createElement("p");
+    addressText.textContent =
+      "Address: " + (profile.address || "Not provided");
+    result.appendChild(addressText);
+  }
+});
+</script>
+
+<!-- JoynalSocial Account Section -->
+<section id="account-section">
+  <h2>JoynalSocial অ্যাকাউন্ট</h2>
+
+  <h3>নতুন অ্যাকাউন্ট তৈরি করুন</h3>
+
+  <label for="signup-name">আপনার নাম</label>
+  <input type="text" id="signup-name" placeholder="আপনার নাম লিখুন">
+
+  <label for="signup-email">ইমেইল</label>
+  <input type="email" id="signup-email" placeholder="আপনার ইমেইল লিখুন">
+
+  <label for="signup-password">পাসওয়ার্ড</label>
+  <input type="password" id="signup-password" placeholder="পাসওয়ার্ড দিন">
+
+  <button type="button" onclick="alert('অ্যাকাউন্ট তৈরির ব্যবস্থা পরের ধাপে যুক্ত করব।')">
+    অ্যাকাউন্ট তৈরি করুন
+  </button>
+
+  <hr>
+<h3>লগইন করুন / নতুন অ্যাকাউন্ট খুলুন</h3>
+
+<label for="login-email">ইমেইল</label>
+<input type="email" id="login-email"
+       placeholder="আপনার ইমেইল লিখুন">
+
+<label for="login-password">পাসওয়ার্ড</label>
+<input type="password" id="login-password"
+       placeholder="পাসওয়ার্ড লিখুন">
+
+<button type="button" id="login-button">লগইন</button>
+<button type="button" id="signup-button">নতুন অ্যাকাউন্ট খুলুন</button>
+
+<p id="auth-message"></p>
+<button type="button" id="logout-button">লগআউট</button>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://cvrpetpdaksigttywmqc.supabase.co";
+
+// এখানে Notepad-এ রাখা Publishable key বসাবেন
+const SUPABASE_KEY = "sb_publishable_yma_iVAektY8PKCIE6d0IA_h0ZzulrX";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const message = document.getElementById("auth-message");
+
+document.getElementById("signup-button").addEventListener("click", async function () {
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value;
+
+  if (!email || !password) {
+    message.textContent = "ইমেইল ও পাসওয়ার্ড লিখুন।";
+    return;
+  }
+
+  if (password.length < 6) {
+    message.textContent = "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।";
+    return;
+  }
+
+  message.textContent = "অ্যাকাউন্ট তৈরি হচ্ছে...";
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    message.textContent = "সমস্যা: " + error.message;
+  } else if (data.session) {
+    message.textContent = "অ্যাকাউন্ট তৈরি হয়েছে এবং আপনি লগইন করেছেন!";
+  } else {
+    message.textContent = "অ্যাকাউন্ট তৈরির অনুরোধ হয়েছে। ইমেইল যাচাই করতে হতে পারে।";
+  }
+});
+
+document.getElementById("login-button").addEventListener("click", async function () {
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value;
+
+  if (!email || !password) {
+    message.textContent = "ইমেইল ও পাসওয়ার্ড লিখুন।";
+    return;
+  }
+
+  message.textContent = "লগইন হচ্ছে...";
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    message.textContent = "লগইন সমস্যা: " + error.message;
+  } else {
+    message.textContent = "সফলভাবে লগইন হয়েছে!";
+message.textContent += " আপনি JoynalSocial-এ প্রবেশ করেছেন।";
+  }
+});
+supabaseClient.auth.getSession().then(({ data, error }) => {
+  if (error) {
+    console.error("Session check error:", error.message);
+    return;
+  }
+
+  if (data.session) {
+    message.textContent = "আপনি JoynaSocial-এ লগইন অবস্থায় আছেন।";
+  }
+});
+document.getElementById("logout-button").addEventListener("click", async function () {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    message.textContent = "লগআউট সমস্যা: " + error.message;
+  } else {
+    message.textContent = "আপনি লগআউট করেছেন।";
+  }
+});
+</script>
+</body>
+</html>
